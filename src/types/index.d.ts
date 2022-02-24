@@ -5,9 +5,16 @@ export interface FileType {
   download_count: number;
   count: number;
   size: number;
+  sent?: Sent;
   summary: string;
   thumbnailUrl: string;
   files?: FileData[] | null;
+}
+
+export interface Sent {
+  subject: string;
+  content: string;
+  emails?: string[] | undefined;
 }
 
 export interface FileData {

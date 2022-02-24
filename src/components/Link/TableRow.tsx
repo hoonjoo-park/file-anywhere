@@ -1,39 +1,49 @@
-import Avatar from "components/Avatar";
-import React from "react";
+import Avatar from "components/commons/Avatar";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
+import { FileType } from "types";
 
-export const TableRow = () => {
+interface Props {
+  data: FileType;
+}
+
+export const TableRow = ({ data }: Props) => {
+  const innerFileLength = useMemo(() => data.files?.length, [data]);
   return (
     <TRow>
       <TableCell>
         <LinkInfo>
           <LinkImage>
-            <img referrerPolicy="no-referrer" src="/svgs/default.svg" alt="" />
+            <img referrerPolicy="no-referrer" src={data.thumbnailUrl} alt="" />
           </LinkImage>
           <LinkTexts>
-            <LinkTitle>로고파일</LinkTitle>
-            <LinkUrl>localhost/7LF4MDLY</LinkUrl>
+            <LinkTitle>{data.summary}</LinkTitle>
+            <LinkUrl>{`localhost/${data.key}`}</LinkUrl>
           </LinkTexts>
         </LinkInfo>
         <span />
       </TableCell>
       <TableCell>
         <span>파일개수</span>
-        <span>1</span>
+        <span>{innerFileLength}</span>
       </TableCell>
       <TableCell>
         <span>파일사이즈</span>
-        <span>10.86KB</span>
+        <span>{data.size}</span>
       </TableCell>
       <TableCell>
         <span>유효기간</span>
-        <span>48시간 00분</span>
+        <span>{data.expires_at}</span>
       </TableCell>
       <TableCell>
         <span>받은사람</span>
         <LinkReceivers>
-          <Avatar text="recruit@estmob.com" />
+          {data.sent
+            ? data.sent.emails?.map((email, i) => (
+                <Avatar key={`email-${i}`} text={email} />
+              ))
+            : null}
         </LinkReceivers>
       </TableCell>
     </TRow>
