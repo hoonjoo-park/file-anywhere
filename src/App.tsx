@@ -6,6 +6,7 @@ import GlobalStyle from "styles/GlobalStyle";
 import axios from "axios";
 import { API_ENDPOINT } from "constants/";
 import { FileData, FileType } from "types";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   const [fileData, setFileData] = useState<FileType[] | null>(null);
@@ -20,8 +21,10 @@ function App() {
     <>
       <GlobalStyle />
       <Container>
-        <LinkPage fileData={fileData} />
-        {selectedData && <DetailPage fileData={fileData} />}
+        <Routes>
+          <Route path={"/"} element={<LinkPage fileData={fileData} />} />
+          <Route path={"/:id"} element={<DetailPage fileData={fileData} />} />
+        </Routes>
       </Container>
     </>
   );
