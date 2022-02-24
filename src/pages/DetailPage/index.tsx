@@ -1,12 +1,14 @@
 import React from "react";
 import type { FC } from "react";
-import styled from "styled-components";
-import colors from "styles/colors";
-import Button from "components/Button";
 import { FileDetail } from "components/Detail/FileDetail";
+import { FileType } from "types";
 
-const DetailPage: FC = () => {
-  return <FileDetail />;
+interface Props {
+  fileData: FileType[] | null;
+}
+
+const DetailPage: FC<Props> = ({ fileData }) => {
+  return <FileDetail fileData={fileData} />;
 };
 
 export default DetailPage;

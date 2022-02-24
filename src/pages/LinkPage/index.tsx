@@ -1,15 +1,19 @@
 import React from "react";
 import type { FC } from "react";
-import Avatar from "components/Avatar";
 import styled from "styled-components";
 import colors from "styles/colors";
 import { LinkTable } from "components/Link/LinkTable";
+import { FileType } from "types";
 
-const LinkPage: FC = () => {
+interface Props {
+  fileData: FileType[] | null;
+}
+
+const LinkPage: FC<Props> = ({ fileData }) => {
   return (
     <>
       <Title>마이 링크</Title>
-      <LinkTable />
+      <LinkTable fileData={fileData} />
     </>
   );
 };

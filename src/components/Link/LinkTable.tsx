@@ -1,15 +1,20 @@
-import Avatar from "components/Avatar";
+import Avatar from "components/commons/Avatar";
 import React from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
+import { FileType } from "types";
 import { TableBody } from "./TableBody";
 import { TableHead } from "./TableHead";
 
-export const LinkTable = () => {
+interface Props {
+  fileData: FileType[] | null;
+}
+
+export const LinkTable = ({ fileData }: Props) => {
   return (
     <Table>
       <TableHead />
-      <TableBody />
+      <TableBody fileData={fileData} />
     </Table>
   );
 };

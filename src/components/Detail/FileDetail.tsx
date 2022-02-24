@@ -1,10 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import Button from "components/Button";
+import Button from "components/commons/Button";
 import colors from "styles/colors";
 import { DetailHeader } from "./DetailHeader";
+import { DetailFileList } from "./DetailFileList";
+import { FileType } from "types";
 
-export const FileDetail = () => {
+interface Props {
+  fileData: FileType[] | null;
+}
+
+export const FileDetail = ({ fileData }: Props) => {
   return (
     <>
       <DetailHeader />
@@ -26,6 +32,7 @@ export const FileDetail = () => {
           <div>총 1개의 파일</div>
           <div>10.86KB</div>
         </ListSummary>
+        <DetailFileList />
       </Article>
     </>
   );
