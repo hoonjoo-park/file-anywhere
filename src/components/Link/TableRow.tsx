@@ -1,15 +1,38 @@
 import Avatar from "components/commons/Avatar";
+import { format } from "date-fns";
 import React, { useMemo } from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
 import { FileType } from "types";
+import { getExpDate } from "utils/getExpDate";
+import { getFileSize } from "utils/getFileSize";
 
 interface Props {
   data: FileType;
 }
 
 export const TableRow = ({ data }: Props) => {
-  const innerFileLength = useMemo(() => data.files?.length, [data]);
+  const innerFileLength = useMemo(
+    () => data.files?.length.toLocaleString(),
+    [data]
+  );
+  const expDate = useMemo(() => getExpDate(data.expires_at), [data]);
+  const fileSize = useMemo(() => getFileSize(data.size), [data]);
+
+  const handleCopy = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const text = e.currentTarget.innerHTML;
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        alert(`${text}주소가 복사 되었습니다.`);
+      })
+      .catch((err) => {
+        console.log("Something went wrong", err);
+      });
+    return;
+  };
+
   return (
     <TRow>
       <TableCell>
@@ -19,7 +42,13 @@ export const TableRow = ({ data }: Props) => {
           </LinkImage>
           <LinkTexts>
             <LinkTitle>{data.summary}</LinkTitle>
-            <LinkUrl>{`https://file-anywhere.herokuapp.com/${data.key}`}</LinkUrl>
+            {expDate === "expired" ? (
+              <span>만료됨</span>
+            ) : (
+              <LinkUrl
+                onClick={(e) => handleCopy(e)}
+              >{`https://file-anywhere.herokuapp.com/${data.key}`}</LinkUrl>
+            )}
           </LinkTexts>
         </LinkInfo>
         <span />
@@ -30,11 +59,11 @@ export const TableRow = ({ data }: Props) => {
       </TableCell>
       <TableCell>
         <span>파일사이즈</span>
-        <span>{data.size}</span>
+        <span>{fileSize}</span>
       </TableCell>
       <TableCell>
         <span>유효기간</span>
-        <span>{data.expires_at}</span>
+        <span>{expDate === "expired" ? "만료됨" : expDate}</span>
       </TableCell>
       <TableCell>
         <span>받은사람</span>
