@@ -19,7 +19,7 @@ export const TableRow = ({ data }: Props) => {
           </LinkImage>
           <LinkTexts>
             <LinkTitle>{data.summary}</LinkTitle>
-            <LinkUrl>{`localhost/${data.key}`}</LinkUrl>
+            <LinkUrl>{`https://file-anywhere.herokuapp.com/${data.key}`}</LinkUrl>
           </LinkTexts>
         </LinkInfo>
         <span />
