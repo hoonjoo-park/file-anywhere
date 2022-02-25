@@ -1,40 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Button from "components/commons/Button";
 import colors from "styles/colors";
 import { DetailHeader } from "./DetailHeader";
 import { DetailFileList } from "./DetailFileList";
 import { FileType } from "types";
+import { useLocation, useParams } from "react-router-dom";
 
 interface Props {
   fileData: FileType[] | null;
 }
 
 export const FileDetail = ({ fileData }: Props) => {
+  const [detailData, setDetailData] = useState<FileType | null>(null);
+  const { id } = useParams();
+  const location = useLocation();
+  useEffect(() => {
+    if (!fileData) return;
+    if (location.state) {
+      const matchToKeyData = fileData?.filter((data) => data.key === id);
+      setDetailData(matchToKeyData[0]);
+      return;
+    }
+    const propsData = location.state;
+    setDetailData(propsData as FileType);
+  }, [fileData]);
   return (
-    <>
-      <DetailHeader />
-      <Article>
-        <Descrition>
-          <Texts>
-            <Top>링크 생성일</Top>
-            <Bottom>2022년 1월 12일 22:36 +09:00</Bottom>
-            <Top>메세지</Top>
-            <Bottom>로고파일 전달 드립니다.</Bottom>
-            <Top>다운로드 횟수</Top>
-            <Bottom>1</Bottom>
-          </Texts>
-          <LinkImage>
-            <Image />
-          </LinkImage>
-        </Descrition>
-        <ListSummary>
-          <div>총 1개의 파일</div>
-          <div>10.86KB</div>
-        </ListSummary>
-        <DetailFileList />
-      </Article>
-    </>
+    detailData && (
+      <>
+        <DetailHeader detailData={detailData} />
+        <Article>
+          <Descrition>
+            <Texts>
+              <Top>링크 생성일</Top>
+              <Bottom>2022년 1월 12일 22:36 +09:00</Bottom>
+              <Top>메세지</Top>
+              <Bottom>로고파일 전달 드립니다.</Bottom>
+              <Top>다운로드 횟수</Top>
+              <Bottom>1</Bottom>
+            </Texts>
+            <LinkImage>
+              <Image />
+            </LinkImage>
+          </Descrition>
+          <ListSummary>
+            <div>총 1개의 파일</div>
+            <div>10.86KB</div>
+          </ListSummary>
+          <DetailFileList />
+        </Article>
+      </>
+    )
   );
 };
 

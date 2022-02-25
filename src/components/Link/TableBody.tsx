@@ -1,4 +1,3 @@
-import Avatar from "components/commons/Avatar";
 import { NothingFound } from "components/commons/NothingFound";
 import React from "react";
 import styled from "styled-components";
