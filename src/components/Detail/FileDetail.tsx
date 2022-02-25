@@ -30,7 +30,7 @@ export const FileDetail = ({ fileData }: Props) => {
         "yyyy년 M월 d일 hh:mm"
       );
   }, [detailData]);
-  console.log(fileData);
+
   useEffect(() => {
     if (!fileData) return;
     if (location.state) {

@@ -10,11 +10,11 @@ import { Route, Routes } from "react-router-dom";
 
 function App() {
   const [fileData, setFileData] = useState<FileType[] | null>(null);
-  const [selectedData, setSelectedData] = useState<FileData | null>(null);
   useEffect(() => {
     (async () => {
       try {
         const { data } = await axios.get(API_ENDPOINT);
+        console.log(data);
         setFileData(data);
       } catch (err) {
         console.log(err);
@@ -25,10 +25,12 @@ function App() {
     <>
       <GlobalStyle />
       <Container>
-        <Routes>
-          <Route path={"/"} element={<LinkPage fileData={fileData} />} />
-          <Route path={"/:id"} element={<DetailPage fileData={fileData} />} />
-        </Routes>
+        {fileData && (
+          <Routes>
+            <Route path={"/"} element={<LinkPage fileData={fileData} />} />
+            <Route path={"/:id"} element={<DetailPage fileData={fileData} />} />
+          </Routes>
+        )}
       </Container>
     </>
   );
