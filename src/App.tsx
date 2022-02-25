@@ -5,7 +5,7 @@ import LinkPage from "pages/LinkPage";
 import GlobalStyle from "styles/GlobalStyle";
 import axios from "axios";
 import { API_ENDPOINT } from "constants/";
-import { FileData, FileType } from "types";
+import { FileType } from "types";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
@@ -14,7 +14,6 @@ function App() {
     (async () => {
       try {
         const { data } = await axios.get(API_ENDPOINT);
-        console.log(data);
         setFileData(data);
       } catch (err) {
         console.log(err);
