@@ -6,6 +6,8 @@ import colors from "styles/colors";
 import { FileType } from "types";
 import { getExpDate } from "utils/getExpDate";
 import { getFileSize } from "utils/getFileSize";
+import { handleCopy } from "utils/handleCopy";
+import { handleImageError } from "utils/handleImageError";
 
 interface Props {
   data: FileType;
@@ -20,20 +22,6 @@ export const TableRow = ({ data }: Props) => {
   const fileSize = useMemo(() => getFileSize(data.size), [data]);
   const navigate = useNavigate();
 
-  const handleCopy = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const text = e.currentTarget.innerHTML;
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        alert(`${text}주소가 복사 되었습니다.`);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    return;
-  };
-
   const handleNavigate = (e: React.MouseEvent<HTMLTableRowElement>) => {
     const target = e.target as HTMLElement;
     if (target.id === "linkToCopy") return;
@@ -45,7 +33,12 @@ export const TableRow = ({ data }: Props) => {
       <TableCell>
         <LinkInfo>
           <LinkImage>
-            <img referrerPolicy="no-referrer" src={data.thumbnailUrl} alt="" />
+            <img
+              referrerPolicy="no-referrer"
+              src={data.thumbnailUrl}
+              alt={`${data.summary}-image`}
+              onError={(e) => handleImageError(e)}
+            />
           </LinkImage>
           <LinkTexts>
             <LinkTitle>{data.summary}</LinkTitle>

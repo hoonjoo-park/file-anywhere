@@ -6,9 +6,6 @@ export const getExpDate = (exp: number) => {
   const hours = Math.floor((expLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
     .toString()
     .padStart(2, "0");
-  const minutes = Math.floor((expLeft % (1000 * 60 * 60)) / (1000 * 60))
-    .toString()
-    .padStart(2, "0");
   if (Number(hours) < 48 && Number(hours) > 0) {
     const interval = setInterval(function () {
       const now = new Date().getTime();

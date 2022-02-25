@@ -13,8 +13,12 @@ function App() {
   const [selectedData, setSelectedData] = useState<FileData | null>(null);
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get(API_ENDPOINT);
-      setFileData(data);
+      try {
+        const { data } = await axios.get(API_ENDPOINT);
+        setFileData(data);
+      } catch (err) {
+        console.log(err);
+      }
     })();
   }, []);
   return (

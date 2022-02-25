@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
 import { DetailHeader } from "./DetailHeader";
 import { DetailFileList } from "./DetailFileList";
 import { FileType } from "types";
 import { useLocation, useParams } from "react-router-dom";
+import { getExpDate } from "utils/getExpDate";
+import { format } from "date-fns";
+import { FileListSummary } from "./FileListSummary";
+import { handleImageError } from "utils/handleImageError";
 
 interface Props {
   fileData: FileType[] | null;
@@ -14,39 +18,53 @@ export const FileDetail = ({ fileData }: Props) => {
   const [detailData, setDetailData] = useState<FileType | null>(null);
   const { id } = useParams();
   const location = useLocation();
+
+  const expDate = useMemo(() => {
+    if (detailData) return getExpDate(detailData!.expires_at);
+  }, [detailData]);
+
+  const createdAt = useMemo(() => {
+    if (detailData)
+      return format(
+        new Date(detailData.created_at * 1000),
+        "yyyy년 M월 d일 hh:mm"
+      );
+  }, [detailData]);
+  console.log(fileData);
   useEffect(() => {
     if (!fileData) return;
     if (location.state) {
-      const matchToKeyData = fileData?.filter((data) => data.key === id);
-      setDetailData(matchToKeyData[0]);
+      const propsData = location.state;
+      setDetailData(propsData as FileType);
       return;
     }
-    const propsData = location.state;
-    setDetailData(propsData as FileType);
+    const matchToKeyData = fileData?.filter((data) => data.key === id);
+    setDetailData(matchToKeyData[0]);
   }, [fileData]);
+
   return (
     detailData && (
       <>
-        <DetailHeader detailData={detailData} />
+        <DetailHeader detailData={detailData} expDate={expDate} />
         <Article>
           <Descrition>
             <Texts>
               <Top>링크 생성일</Top>
-              <Bottom>2022년 1월 12일 22:36 +09:00</Bottom>
+              <Bottom>{createdAt}</Bottom>
               <Top>메세지</Top>
-              <Bottom>로고파일 전달 드립니다.</Bottom>
+              <Bottom>{detailData.sent ? detailData.sent.content : "-"}</Bottom>
               <Top>다운로드 횟수</Top>
-              <Bottom>1</Bottom>
+              <Bottom>{detailData.download_count}</Bottom>
             </Texts>
             <LinkImage>
-              <Image />
+              <Image
+                src={detailData.thumbnailUrl}
+                onError={(e) => handleImageError(e)}
+              />
             </LinkImage>
           </Descrition>
-          <ListSummary>
-            <div>총 1개의 파일</div>
-            <div>10.86KB</div>
-          </ListSummary>
-          <DetailFileList />
+          <FileListSummary detailData={detailData} />
+          {expDate !== "expired" && <DetailFileList detailData={detailData} />}
         </Article>
       </>
     )
@@ -102,11 +120,8 @@ const LinkImage = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
-  display: flex;
   overflow: hidden;
-  align-items: center;
   border-radius: 4px;
-  justify-content: center;
   background-color: ${colors.grey50};
 
   @media (max-width: 768px) {
@@ -115,25 +130,8 @@ const LinkImage = styled.div`
   }
 `;
 
-const Image = styled.span`
+const Image = styled.img`
   width: 120px;
-  display: inline-block;
-  background-image: url(/svgs/default.svg);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-  padding-bottom: 100%;
-`;
-
-const ListSummary = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 36px;
-  font-weight: 600;
-  border-top: 1px solid;
-  border-color: ${colors.grey200};
-
-  @media (max-width: 768px) {
-    padding: 12px 24px;
-  }
+  height: 100%;
+  padding: 50% 0;
 `;
