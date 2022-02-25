@@ -1,17 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
+import { FileType } from "types";
+import { DetailFileListItem } from "./DetailFileListItem";
 
-export const DetailFileList = () => {
+interface Props {
+  detailData: FileType;
+}
+
+export const DetailFileList = ({ detailData }: Props) => {
+  const files = detailData.files;
   return (
     <FileList>
-      <FileListItem>
-        <FileItemInfo>
-          <span />
-          <span>logo.png</span>
-        </FileItemInfo>
-        <FileItemSize>10.86KB</FileItemSize>
-      </FileListItem>
+      {files &&
+        files.map((file, i) => (
+          <DetailFileListItem key={`file-${i}`} file={file} />
+        ))}
     </FileList>
   );
 };
@@ -33,31 +37,3 @@ const FileList = styled.ul`
     border-color: ${colors.grey200};
   }
 `;
-
-const FileListItem = styled.li`
-  height: 72px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const FileItemInfo = styled.div`
-  flex-grow: 0;
-  max-width: 50%;
-  flex-basis: 50%;
-  display: flex;
-  align-items: center;
-
-  span:first-child {
-    width: 40px;
-    height: 40px;
-    margin-right: 12px;
-    display: inline-block;
-    background-image: url(/svgs/default.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-  }
-`;
-
-const FileItemSize = styled.div``;
