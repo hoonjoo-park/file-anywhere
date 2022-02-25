@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
-import Avatar from "./Avatar";
 
 export const NothingFound = () => {
   return (

@@ -2,13 +2,18 @@ import Button from "components/commons/Button";
 import React from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
+import { FileType } from "types";
 
-export const DetailHeader = () => {
+interface Props {
+  detailData: FileType;
+}
+
+export const DetailHeader = ({ detailData }: Props) => {
   return (
     <Header>
       <LinkInfo>
-        <Title>로고파일</Title>
-        <Url>localhost/7LF4MDLY</Url>
+        <Title>{detailData.summary}</Title>
+        <Url>{`https://file-anywhere.herokuapp.com/${detailData.key}`}</Url>
       </LinkInfo>
       <DownloadButton>
         <img referrerPolicy="no-referrer" src="/svgs/download.svg" alt="" />

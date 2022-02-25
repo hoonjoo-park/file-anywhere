@@ -1,6 +1,6 @@
 import Avatar from "components/commons/Avatar";
-import { format } from "date-fns";
 import React, { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import colors from "styles/colors";
 import { FileType } from "types";
@@ -18,6 +18,7 @@ export const TableRow = ({ data }: Props) => {
   );
   const expDate = useMemo(() => getExpDate(data.expires_at), [data]);
   const fileSize = useMemo(() => getFileSize(data.size), [data]);
+  const navigate = useNavigate();
 
   const handleCopy = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -28,13 +29,19 @@ export const TableRow = ({ data }: Props) => {
         alert(`${text}주소가 복사 되었습니다.`);
       })
       .catch((err) => {
-        console.log("Something went wrong", err);
+        console.log(err);
       });
     return;
   };
 
+  const handleNavigate = (e: React.MouseEvent<HTMLTableRowElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.id === "linkToCopy") return;
+    navigate(`/${data.key}`, { state: data });
+  };
+
   return (
-    <TRow>
+    <TRow onClick={(e) => handleNavigate(e)}>
       <TableCell>
         <LinkInfo>
           <LinkImage>
@@ -46,6 +53,7 @@ export const TableRow = ({ data }: Props) => {
               <span>만료됨</span>
             ) : (
               <LinkUrl
+                id="linkToCopy"
                 onClick={(e) => handleCopy(e)}
               >{`https://file-anywhere.herokuapp.com/${data.key}`}</LinkUrl>
             )}
