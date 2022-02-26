@@ -2,7 +2,7 @@ import React from "react";
 import type { FC } from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
-import { LinkTable } from "components/Link/LinkTable";
+import { LinkTable } from "components/link/LinkTable";
 import { FileType } from "types";
 
 interface Props {

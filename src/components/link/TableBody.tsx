@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
 import { FileType } from "types";
-import { TableRow } from "./TableRow";
+import { TableRow } from "components/link/TableRow";
 
 interface Props {
   fileData: FileType[] | null;

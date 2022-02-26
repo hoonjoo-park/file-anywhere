@@ -4,7 +4,6 @@ import colors from "styles/colors";
 import { FileType } from "types";
 import { handleCopy } from "utils/handleCopy";
 import Button from "components/commons/Button";
-import { format } from "date-fns";
 
 interface Props {
   detailData: FileType;
@@ -13,6 +12,7 @@ interface Props {
 
 export const DetailHeader = ({ detailData, expDate }: Props) => {
   const handleDownload = () => {
+    if (expDate === "expired") return window.alert("만료된 파일입니다.");
     window.alert("다운로드 되었습니다.");
   };
   return (
@@ -70,7 +70,7 @@ const Url = styled.a`
 
 const DownloadButton = styled(Button)`
   font-size: 16px;
-
+  cursor: pointer;
   img {
     margin-right: 8px;
   }

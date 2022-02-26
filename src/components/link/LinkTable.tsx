@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
 import { FileType } from "types";
-import { TableBody } from "./TableBody";
-import { TableHead } from "./TableHead";
+import { TableBody } from "components/link/TableBody";
+import { TableHead } from "components/link/TableHead";
 
 interface Props {
   fileData: FileType[] | null;

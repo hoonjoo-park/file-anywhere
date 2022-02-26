@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
 import { FileType } from "types";
-import { DetailFileListItem } from "./DetailFileListItem";
+import { DetailFileListItem } from "components/detail/DetailFileListItem";
 
 interface Props {
   detailData: FileType;

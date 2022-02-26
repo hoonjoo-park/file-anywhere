@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import colors from "styles/colors";
-import { DetailHeader } from "./DetailHeader";
-import { DetailFileList } from "./DetailFileList";
+import { DetailHeader } from "components/detail/DetailHeader";
+import { DetailFileList } from "components/detail/DetailFileList";
 import { FileType } from "types";
 import { useLocation, useParams } from "react-router-dom";
 import { getExpDate } from "utils/getExpDate";
 import { format } from "date-fns";
-import { FileListSummary } from "./FileListSummary";
+import { FileListSummary } from "components/detail/FileListSummary";
 import { handleImageError } from "utils/handleImageError";
 
 interface Props {
